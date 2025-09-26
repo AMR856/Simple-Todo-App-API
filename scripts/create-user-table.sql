@@ -1,0 +1,7 @@
+
+CREATE TABLE users (
+    username VARCHAR(50) NOT NULL,
+    password VARCHAR(150) NOT NULL,
+    email VARCHAR(100) UNIQUE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);

@@ -1,0 +1,7 @@
+
+CREATE TABLE sessions (
+    session_id VARCHAR(150) PRIMARY KEY,
+    email VARCHAR(100) NOT NULL,
+    expires_at TIMESTAMP NOT NULL DEFAULT (CURRENT_TIMESTAMP + INTERVAL '2 hours'),
+    FOREIGN KEY (email) REFERENCES users(email) ON DELETE CASCADE
+);
