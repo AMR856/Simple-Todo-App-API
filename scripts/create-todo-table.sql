@@ -1,0 +1,5 @@
+CREATE TABLE todos (
+  id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+  title VARCHAR(50),
+  description VARCHAR(300)
+);

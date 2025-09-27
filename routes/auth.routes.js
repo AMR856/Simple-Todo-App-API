@@ -1,4 +1,4 @@
-const express = require('express');
+const express  = require('express')
 const router = express.Router();
 
 const {
@@ -10,6 +10,6 @@ router
 .post('/register', registerUser)
 
 router
-.post('/login-session', loginUserSession);
+.post('/login', loginUserSession);
 
 module.exports = router;

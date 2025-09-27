@@ -1,24 +1,29 @@
 const { getSession } = require("../models/session.model");
+const CustomError = require('../utils/custom-error');
+const httpStatus = require('../utils/http-status-text');
 
 const sessionAuth = async (req, res, next) => {
   const sessionId = req.cookies["session_id"];
 
   if (!sessionId) {
-    return res.status(401).json({ error: "Missing session_id cookie" });
+    const err = new CustomError(401, "Missing session_id cookie", httpStatus.FAIL);
+    return next(err);
   }
 
   try {
     const session = await getSession(sessionId);
 
     if (!session) {
-      return res.status(401).json({ error: "Invalid or expired session" });
+      const err = new CustomError(401, "Invalid or expired session" , httpStatus.FAIL);
+      return next(err);
     }
 
     req.user = { email: session.email };
     next();
   } catch (err) {
     console.error("Session lookup failed:", err);
-    return res.status(500).json({ error: "Internal server error" });
+    const sentError = new CustomError(500, "Internal server error" , httpStatus.ERROR);
+    next(sentError);
   }
 };
 

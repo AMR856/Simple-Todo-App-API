@@ -17,7 +17,7 @@ const insertSession = async (email) => {
 
 const getSession = async (sessionId) => {
   const result = await pool.query(
-    "SELECT session_id FROM sessions WHERE session_id = $1 AND expires_at > NOW()",
+    "SELECT session_id, email FROM sessions WHERE session_id = $1 AND expires_at > NOW()",
     [sessionId]
   );
   return result.rows[0] || null;

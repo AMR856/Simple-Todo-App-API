@@ -7,6 +7,7 @@ const registerUser = async (req, res) => {
   if (!email || !username || !password) {
     return res.status(400).json({ message: "Username, password, and email are required" });
   }
+  
   const isExist = (await userModel.getUser(username)).length > 0;
   if (isExist){
     return res.status(200).json({ message: "User already registred", user: { username } });
@@ -15,6 +16,7 @@ const registerUser = async (req, res) => {
   res.status(200).json({ message: "User registered successfully", user: { username } });
 };
 
+// 060d22b1121fdd4eb02c92cd22f5cb88d829eba5
 const loginUserSession = async (req, res) => {
   const { email, password } = req.body;
   const user =  (await userModel.getUserByEmail(email))[0];
