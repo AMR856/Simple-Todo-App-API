@@ -3,8 +3,8 @@ const CustomError = require('../utils/custom-error');
 const httpStatus = require('../utils/http-status-text');
 
 const sessionAuth = async (req, res, next) => {
-  const sessionId = req.cookies["session_id"];
-
+  // console.log(req);
+  const sessionId = req.header("session_id");
   if (!sessionId) {
     const err = new CustomError(401, "Missing session_id cookie", httpStatus.FAIL);
     return next(err);

@@ -8,13 +8,26 @@ const cookieParser = require('cookie-parser');
 const authRouter = require('./routes/auth.routes');
 const todoRouter = require('./routes/todo.routes');
 const todoLimiter = require('./middlewares/rate-limiter');
+const { swaggerUi, swaggerDocs } = require("./config/swagger");
 
 app.use(bodyParser.json());
 app.use(cookieParser());
-app.use(cors());
+app.use(cors({
+  origin: `http://localhost:${process.env.PORT}`,
+}));
+
 app.use(todoLimiter);
 app.use(`/auth`, authRouter);
 app.use('/todos', todoRouter);
+app.use(
+  "/docs",
+  swaggerUi.serve,
+  swaggerUi.setup(swaggerDocs, {
+    swaggerOptions: {
+      withCredentials: true, 
+    },
+  })
+);
 
 app.use((err, req, res, next) => {
   const status = err.statusCode || 500;

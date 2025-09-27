@@ -8,15 +8,15 @@ const registerUser = async (req, res) => {
     return res.status(400).json({ message: "Username, password, and email are required" });
   }
   
-  const isExist = (await userModel.getUser(username)).length > 0;
+  const isExist = (await userModel.getUserByUsername(username)).length > 0;
   if (isExist){
-    return res.status(200).json({ message: "User already registred", user: { username } });
+    return res.status(201).json({ message: "User already registred", user: { username } });
   }
   await userModel.insertUser(email, username, password);
   res.status(200).json({ message: "User registered successfully", user: { username } });
 };
 
-// 060d22b1121fdd4eb02c92cd22f5cb88d829eba5
+// {"message":"Login successful","session_id":"1476d5f049fcf797f59efe44a95f0b91c70e63f4"}
 const loginUserSession = async (req, res) => {
   const { email, password } = req.body;
   const user =  (await userModel.getUserByEmail(email))[0];
